@@ -1,0 +1,28 @@
+{
+  "region": {
+    "fy_start": "07-01",
+    "fy_label": "Tax{yy}-{yy2}",
+    "currency": "AUD",
+    "currency_symbol": "$",
+    "tax_name": "GST",
+    "tax_id_name": "ABN",
+    "date_format": "%d/%m/%Y"
+  },
+
+  "storage": {
+    "type": "google",
+    "endpoint": "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec",
+    "token": "the TOKEN from your Config.gs"
+  },
+
+  "accountant": { "name": "Priya" },
+
+  "channels": [
+    { "type": "whatsapp", "to": "61400000000" }
+  ],
+
+  "message": {
+    "intro": "I've bought the following. Here are the details from the receipt:",
+    "question": "How much of this can I claim back?"
+  }
+}

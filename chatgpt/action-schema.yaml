@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: receipt-tax
+  version: 1.0.0
+  description: Your own receipt-tax Google Apps Script backend.
+servers:
+  - url: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID
+paths:
+  /exec:
+    post:
+      operationId: logReceipt
+      summary: Log a receipt, check duplicates, list the ledger, or record the accountant's answer
+      x-openai-isConsequential: false
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [YOUR_TOKEN]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action: {type: string, enum: [log, check, list, answer, ping]}
+                fy: {type: string, description: "Tax-year label, e.g. Tax26-27"}
+                force: {type: boolean, description: "Log even if it looks like a duplicate"}
+                receipt_id: {type: string}
+                work_use_pct: {type: number}
+                claimable: {type: number}
+                notes: {type: string}
+                openaiFileIdRefs:
+                  type: array
+                  items: {type: string}
+                  description: The receipt photo the user uploaded in this conversation
+                receipt:
+                  type: object
+                  properties:
+                    date: {type: string, description: YYYY-MM-DD}
+                    supplier: {type: string}
+                    tax_id: {type: [string, "null"]}
+                    what: {type: string}
+                    purpose: {type: string}
+                    line_items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          qty: {type: number}
+                          description: {type: string}
+                          amount: {type: number}
+                    category: {type: string}
+                    subtotal: {type: [number, "null"]}
+                    tax: {type: [number, "null"]}
+                    total: {type: number}
+                    currency: {type: string}
+                    payment_method: {type: [string, "null"]}
+                    receipt_number: {type: [string, "null"]}
+      responses:
+        "200":
+          description: JSON with ok, receipt_id, financial_year, file_link, sheet_link, excel_download, warnings

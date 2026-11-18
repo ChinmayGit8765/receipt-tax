@@ -1,0 +1,10 @@
+# secrets: never commit
+config.json
+Config.gs
+.clasp.json
+.clasprc.json
+dist/
+
+__pycache__/
+*.pyc
+.DS_Store
